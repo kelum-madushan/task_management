@@ -1,8 +1,10 @@
 package com.threerive.taskmanagement.service;
 
+import com.threerive.taskmanagement.dto.PaginationDto;
 import com.threerive.taskmanagement.dto.request.AddTaskRequest;
 import com.threerive.taskmanagement.dto.TaskDto;
 import com.threerive.taskmanagement.dto.request.UpdateTaskRequest;
+import com.threerive.taskmanagement.dto.response.TaskPageResponse;
 import com.threerive.taskmanagement.entity.Task;
 import org.springframework.data.domain.Page;
 
@@ -15,5 +17,5 @@ public interface TaskService {
 
     void deleteTask(Integer id);
 
-    Page<TaskDto> getTaskList();
+    TaskPageResponse getTaskList(PaginationDto paginationDto);
 }

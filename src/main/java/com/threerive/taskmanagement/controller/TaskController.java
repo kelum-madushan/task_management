@@ -1,5 +1,6 @@
 package com.threerive.taskmanagement.controller;
 
+import com.threerive.taskmanagement.dto.PaginationDto;
 import com.threerive.taskmanagement.dto.request.AddTaskRequest;
 import com.threerive.taskmanagement.dto.response.GenericResponse;
 import com.threerive.taskmanagement.dto.request.UpdateTaskRequest;
@@ -46,10 +47,10 @@ public class TaskController {
     }
 
     @GetMapping
-    GenericResponse getTaskList() {
+    GenericResponse getTaskList(@RequestBody PaginationDto paginationDto) {
         GenericResponse response = new GenericResponse();
         response.setStatus(HttpStatus.OK);
-        response.setResponse(taskService.getTaskList());
+        response.setResponse(taskService.getTaskList(paginationDto));
         logger.info("Get all Credit Note. response: {}", response);
         return response;
     }
