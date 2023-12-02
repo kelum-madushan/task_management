@@ -1,11 +1,13 @@
 package com.threerive.taskmanagement.service.impl;
 
+import com.threerive.taskmanagement.constant.MessageConstants;
 import com.threerive.taskmanagement.dto.PaginationDto;
 import com.threerive.taskmanagement.dto.request.AddTaskRequest;
 import com.threerive.taskmanagement.dto.TaskDto;
 import com.threerive.taskmanagement.dto.request.UpdateTaskRequest;
 import com.threerive.taskmanagement.dto.response.TaskPageResponse;
 import com.threerive.taskmanagement.entity.Task;
+import com.threerive.taskmanagement.exception.CustomValidationException;
 import com.threerive.taskmanagement.mapper.DtoToEntityMapper;
 import com.threerive.taskmanagement.mapper.EntityToDtoMapper;
 import com.threerive.taskmanagement.repository.TaskRepository;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -27,24 +30,37 @@ public class TaskServiceImpl implements TaskService {
 
   @Override
   public TaskDto addTask(AddTaskRequest request) {
-    Task task =
-        Task.builder().name(request.getName()).description(request.getDescription()).build();
-    Task task1 = taskRepository.save(task);
-    return EntityToDtoMapper.mapper(task1);
+    Optional<Task> task_exist = taskRepository.getByName(request.getName());
+    if (task_exist.isPresent()) {
+      throw new CustomValidationException(MessageConstants.TASK_EXIST);
+    }
+    Task task = taskRepository.save(DtoToEntityMapper.mapper(request));
+    return EntityToDtoMapper.mapper(task);
   }
 
   @Override
   public TaskDto updateTask(UpdateTaskRequest request) {
-    Task task = taskRepository.getById(request.getId());
-    Task task1 = taskRepository.save(DtoToEntityMapper.mapper(request));
-    return EntityToDtoMapper.mapper(task1);
+    Task task_exist = taskRepository.getById(request.getId());
+    if ("null".equals(task_exist)) {
+      throw new CustomValidationException(MessageConstants.TASK_CAN_NOT_FOUND);
+    }
+    Optional<Task> task_name_exist = taskRepository.getByName(request.getName());
+    if (task_name_exist.isPresent()
+        && !task_name_exist.get().getId().equals(request.getId())
+        && task_name_exist.get().getName().equals(request.getName())) {
+      throw new CustomValidationException(MessageConstants.TASK_EXIST);
+    }
+    Task task = taskRepository.save(DtoToEntityMapper.mapper(request));
+    return EntityToDtoMapper.mapper(task);
   }
 
   @Override
   public void deleteTask(Integer id) {
     Task task = taskRepository.getById(id);
-    task.setStatus(2);
-    taskRepository.save(task);
+    if ("null".equals(task)) {
+      throw new CustomValidationException(MessageConstants.TASK_CAN_NOT_FOUND);
+    }
+    taskRepository.delete(task);
   }
 
   @Override
@@ -65,7 +81,6 @@ public class TaskServiceImpl implements TaskService {
                           .name(task.getName())
                           .id(task.getId())
                           .description(task.getDescription())
-                          .status(task.getStatus())
                           .build()));
     }
     taskPageResponse.setList(list);

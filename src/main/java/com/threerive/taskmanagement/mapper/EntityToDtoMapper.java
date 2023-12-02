@@ -9,7 +9,6 @@ public class EntityToDtoMapper {
         .id(task.getId())
         .name(task.getName())
         .description(task.getDescription())
-        .status(task.getStatus())
         .build();
   }
 }
