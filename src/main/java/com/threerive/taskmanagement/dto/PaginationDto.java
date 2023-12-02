@@ -9,11 +9,11 @@ import lombok.Data;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PaginationDto {
-    @NotNull
-    @PositiveOrZero
-    private Integer pageNo;
+  @NotNull
+  @PositiveOrZero
+  private Integer pageNo;
 
-    @NotNull
-    @Positive
-    private Integer pageSize;
+  @NotNull
+  @Positive
+  private Integer pageSize;
 }

@@ -7,11 +7,11 @@ import org.springframework.http.HttpStatus;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class GenericResponse<T> {
-    private HttpStatus status;
+  private HttpStatus status;
 
-    private String message;
+  private String message;
 
-    private String responseCode;
+  private String responseCode;
 
-    private T response;
+  private T response;
 }

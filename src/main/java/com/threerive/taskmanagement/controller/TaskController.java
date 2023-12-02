@@ -14,45 +14,43 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/task")
 public class TaskController {
-    private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
+  private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
 
-    @Autowired
-    TaskService taskService;
+  @Autowired TaskService taskService;
 
-    @PostMapping
-    GenericResponse addTask(@RequestBody AddTaskRequest request) {
-        GenericResponse response = new GenericResponse();
-        response.setStatus(HttpStatus.OK);
-        response.setResponse(taskService.addTask(request));
-        logger.info("Get all Credit Note. response: {}", response);
-        return response;
-    }
+  @PostMapping
+  GenericResponse addTask(@RequestBody AddTaskRequest request) {
+    GenericResponse response = new GenericResponse();
+    response.setStatus(HttpStatus.OK);
+    response.setResponse(taskService.addTask(request));
+    logger.info("Add task: {}", response);
+    return response;
+  }
 
-    @PutMapping
-    GenericResponse updateTask(@RequestBody UpdateTaskRequest request) {
-        GenericResponse response = new GenericResponse();
-        response.setStatus(HttpStatus.OK);
-        response.setResponse(taskService.updateTask(request));
-        logger.info("Get all Credit Note. response: {}", response);
-        return response;
-    }
+  @PutMapping
+  GenericResponse updateTask(@RequestBody UpdateTaskRequest request) {
+    GenericResponse response = new GenericResponse();
+    response.setStatus(HttpStatus.OK);
+    response.setResponse(taskService.updateTask(request));
+    logger.info("Update task: {}", response);
+    return response;
+  }
 
-    @DeleteMapping("/{id}")
-    GenericResponse deleteTask(@PathVariable("id") Integer id) {
-        GenericResponse response = new GenericResponse();
-        response.setStatus(HttpStatus.OK);
-        taskService.deleteTask(id);
-        logger.info("Get all Credit Note. response: {}", response);
-        return response;
-    }
+  @DeleteMapping("/{id}")
+  GenericResponse deleteTask(@PathVariable("id") Integer id) {
+    GenericResponse response = new GenericResponse();
+    response.setStatus(HttpStatus.OK);
+    taskService.deleteTask(id);
+    logger.info("Delete task: {}", response);
+    return response;
+  }
 
-    @GetMapping
-    GenericResponse getTaskList(@RequestBody PaginationDto paginationDto) {
-        GenericResponse response = new GenericResponse();
-        response.setStatus(HttpStatus.OK);
-        response.setResponse(taskService.getTaskList(paginationDto));
-        logger.info("Get all Credit Note. response: {}", response);
-        return response;
-    }
-
+  @GetMapping
+  GenericResponse getTaskList(@RequestBody PaginationDto paginationDto) {
+    GenericResponse response = new GenericResponse();
+    response.setStatus(HttpStatus.OK);
+    response.setResponse(taskService.getTaskList(paginationDto));
+    logger.info("Get task list : {}", response);
+    return response;
+  }
 }

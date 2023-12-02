@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UpdateTaskRequest {
-    private Integer id;
-    private String name;
-    private String description;
-    private Integer status;
+  private Integer id;
+  private String name;
+  private String description;
+  private Integer status;
 }

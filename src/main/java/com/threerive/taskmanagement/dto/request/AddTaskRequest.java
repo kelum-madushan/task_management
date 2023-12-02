@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AddTaskRequest {
-    private String name;
-    private String description;
+  private String name;
+  private String description;
 }
