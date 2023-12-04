@@ -5,6 +5,7 @@ import com.threerive.taskmanagement.dto.request.AddTaskRequest;
 import com.threerive.taskmanagement.dto.response.GenericResponse;
 import com.threerive.taskmanagement.dto.request.UpdateTaskRequest;
 import com.threerive.taskmanagement.service.TaskService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class TaskController {
   @Autowired TaskService taskService;
 
   @PostMapping
-  GenericResponse addTask(@RequestBody AddTaskRequest request) {
+  GenericResponse addTask(@RequestBody @Valid AddTaskRequest request) {
     GenericResponse response = new GenericResponse();
     response.setStatus(HttpStatus.OK);
     response.setResponse(taskService.addTask(request));
@@ -28,7 +29,7 @@ public class TaskController {
   }
 
   @PutMapping
-  GenericResponse updateTask(@RequestBody UpdateTaskRequest request) {
+  GenericResponse updateTask(@RequestBody @Valid UpdateTaskRequest request) {
     GenericResponse response = new GenericResponse();
     response.setStatus(HttpStatus.OK);
     response.setResponse(taskService.updateTask(request));

@@ -1,7 +1,7 @@
 package com.threerive.taskmanagement.constant;
 
 public class MessageConstants {
-    public static final String TASK_EXIST = "Task already exist";
+  public static final String TASK_NAME_EXIST = "Task name already exist";
 
-    public static final String TASK_CAN_NOT_FOUND = "Task can not found";
+  public static final String TASK_COULD_NOT_FOUND = "Task could not found";
 }

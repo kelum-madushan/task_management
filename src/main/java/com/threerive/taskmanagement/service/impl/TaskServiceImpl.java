@@ -32,7 +32,7 @@ public class TaskServiceImpl implements TaskService {
   public TaskDto addTask(AddTaskRequest request) {
     Optional<Task> task_exist = taskRepository.getByName(request.getName());
     if (task_exist.isPresent()) {
-      throw new CustomValidationException(MessageConstants.TASK_EXIST);
+      throw new CustomValidationException(MessageConstants.TASK_NAME_EXIST);
     }
     Task task = taskRepository.save(DtoToEntityMapper.mapper(request));
     return EntityToDtoMapper.mapper(task);
@@ -40,15 +40,12 @@ public class TaskServiceImpl implements TaskService {
 
   @Override
   public TaskDto updateTask(UpdateTaskRequest request) {
-    Task task_exist = taskRepository.getById(request.getId());
-    if ("null".equals(task_exist)) {
-      throw new CustomValidationException(MessageConstants.TASK_CAN_NOT_FOUND);
-    }
+    taskRepository
+        .findById(request.getId())
+        .orElseThrow(() -> new CustomValidationException(MessageConstants.TASK_COULD_NOT_FOUND));
     Optional<Task> task_name_exist = taskRepository.getByName(request.getName());
-    if (task_name_exist.isPresent()
-        && !task_name_exist.get().getId().equals(request.getId())
-        && task_name_exist.get().getName().equals(request.getName())) {
-      throw new CustomValidationException(MessageConstants.TASK_EXIST);
+    if (task_name_exist.isPresent() && !task_name_exist.get().getId().equals(request.getId())) {
+      throw new CustomValidationException(MessageConstants.TASK_NAME_EXIST);
     }
     Task task = taskRepository.save(DtoToEntityMapper.mapper(request));
     return EntityToDtoMapper.mapper(task);
@@ -56,10 +53,11 @@ public class TaskServiceImpl implements TaskService {
 
   @Override
   public void deleteTask(Integer id) {
-    Task task = taskRepository.getById(id);
-    if ("null".equals(task)) {
-      throw new CustomValidationException(MessageConstants.TASK_CAN_NOT_FOUND);
-    }
+    Task task =
+        taskRepository
+            .findById(id)
+            .orElseThrow(
+                () -> new CustomValidationException(MessageConstants.TASK_COULD_NOT_FOUND));
     taskRepository.delete(task);
   }
 
