@@ -1,6 +1,5 @@
 package com.threerive.taskmanagement.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.threerive.taskmanagement.dto.TaskDto;
 import lombok.Data;
 

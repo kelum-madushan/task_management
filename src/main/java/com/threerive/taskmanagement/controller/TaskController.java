@@ -22,7 +22,7 @@ public class TaskController {
   @PostMapping
   GenericResponse addTask(@RequestBody @Valid AddTaskRequest request) {
     GenericResponse response = new GenericResponse();
-    response.setStatus(HttpStatus.OK);
+    response.setStatus(HttpStatus.CREATED);
     response.setResponse(taskService.addTask(request));
     logger.info("Add task: {}", response);
     return response;
